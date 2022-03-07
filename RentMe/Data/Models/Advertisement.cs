@@ -14,6 +14,8 @@ namespace RentMe.Data.Models
         [MaxLength(Const.DescriptionMaxLength)]
         public string? Description { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Required]
         [ForeignKey(nameof(Property))]
         public string? PropertyId { get; set; }

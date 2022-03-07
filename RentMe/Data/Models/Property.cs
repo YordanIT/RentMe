@@ -26,6 +26,8 @@ namespace RentMe.Data.Models
         public bool HasElevator { get; set; }
         public bool HasFurniture { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Required]
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }

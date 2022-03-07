@@ -14,9 +14,8 @@ namespace RentMe.Data.Models
         public decimal Water { get; set; }
         public decimal Electricity { get; set; }
         public decimal? Other { get; set; }
-        public decimal Total
-            => Rent + EntranceFee + Heating + Water + Electricity + Other??0; 
         public bool IsPaid { get; set; }
+        public bool IsDeleted { get; set; }
 
         [MaxLength(Const.CommentMaxLength)]
         public string? Comment { get; set; }

@@ -17,6 +17,8 @@ namespace RentMe.Data.Models
         [MaxLength(Const.ContentMaxLength)]
         public string? Content { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Required]
         [ForeignKey(nameof(Author))]
         public string? AuthorId { get; set; }

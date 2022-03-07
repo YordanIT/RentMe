@@ -10,5 +10,7 @@ namespace RentMe.Data.Models
 
         [MaxLength(Const.ImageMaxValue)]
         public byte[]? Data { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

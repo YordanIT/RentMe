@@ -32,6 +32,8 @@ namespace RentMe.Data.Models
 
         public bool IsTenant { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Property> Properties { get; set; } = new List<Property>();
     }
 }

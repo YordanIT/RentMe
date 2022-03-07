@@ -10,15 +10,34 @@ namespace RentMe.Controllers
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;
+           _logger = logger;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+        public IActionResult ForRent()
+        {
+            return View("Views/Ads/ForRent.cshtml");
+        }
 
-        public IActionResult Privacy()
+        public IActionResult ForSale()
+        {
+            return View("Views/Ads/ForSale.cshtml");
+        }
+
+        public IActionResult Blog()
+        {
+            return View("Views/Blog/Articles.cshtml");
+        }
+
+        public IActionResult Add()
+        {
+            return View("Views/Blog/Add.cshtml");
+        }
+
+        public IActionResult About()
         {
             return View();
         }
