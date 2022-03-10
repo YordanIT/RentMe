@@ -1,4 +1,4 @@
-﻿using RentMe.Common;
+﻿using RentMe.Core.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +7,7 @@ namespace RentMe.Data.Models
     public class Expense
     {
         [Key]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public Guid Id { get; init; } = Guid.NewGuid();
         public decimal Rent { get; set; }
         public decimal EntranceFee { get; set; }
         public decimal Heating { get; set; }

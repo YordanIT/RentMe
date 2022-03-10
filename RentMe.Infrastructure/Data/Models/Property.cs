@@ -1,4 +1,4 @@
-﻿using RentMe.Common;
+﻿using RentMe.Core.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +7,7 @@ namespace RentMe.Data.Models
     public class Property
     {
         [Key]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
         [MaxLength(Const.CityMaxLength)]

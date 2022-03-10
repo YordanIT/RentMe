@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RentMe.Data;
 using RentMe.Data.Models;
 
-namespace RentMe.Data
+namespace RentMe.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -11,12 +12,10 @@ namespace RentMe.Data
         {
         }
 
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Article> Articles { get; set; }
-        public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<Ad> Advertisements { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
 

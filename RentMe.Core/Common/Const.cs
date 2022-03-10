@@ -1,4 +1,4 @@
-﻿namespace RentMe.Common
+﻿namespace RentMe.Core.Common
 {
     public static class Const
     {
