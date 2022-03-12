@@ -13,9 +13,7 @@
         public const int EmailMaxLength = 100;
         public const int PhoneMaxLength = 15;
         public const int IbanMaxLength = 34;
-        public const string Tenant = nameof(Tenant);
-        public const string Landlord = nameof(Landlord);
-
+        
         //Expense
         public const int CommentMaxLength = 200;
 

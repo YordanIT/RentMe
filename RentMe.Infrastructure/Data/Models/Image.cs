@@ -1,7 +1,7 @@
 ﻿using RentMe.Core.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace RentMe.Data.Models
+namespace RentMe.Infrastructure.Data.Models
 {
     public class Image
     {
@@ -11,6 +11,6 @@ namespace RentMe.Data.Models
         [MaxLength(Const.ImageMaxValue)]
         public byte[]? Data { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

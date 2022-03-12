@@ -1,7 +1,7 @@
 ﻿using RentMe.Core.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace RentMe.Data.Models
+namespace RentMe.Infrastructure.Data.Models
 {
     public class PropertyType
     {

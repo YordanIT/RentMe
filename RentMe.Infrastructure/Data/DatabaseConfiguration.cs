@@ -1,4 +1,4 @@
-﻿namespace RentMe.Data
+﻿namespace RentMe.Infrastructure.Data
 {
     public class DatabaseConfiguration
     {

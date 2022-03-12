@@ -1,8 +1,7 @@
 ﻿using RentMe.Core.Common;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RentMe.Data.Models
+namespace RentMe.Infrastructure.Data.Models
 {
     public class Article
     {
@@ -17,11 +16,6 @@ namespace RentMe.Data.Models
         [MaxLength(Const.ContentMaxLength)]
         public string? Content { get; set; }
 
-        public bool IsDeleted { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Author))]
-        public string? AuthorId { get; set; }
-        public User? Author { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RentMe.Data.Models
+namespace RentMe.Infrastructure.Data.Models
 {
     public class Property
     {
@@ -26,11 +26,9 @@ namespace RentMe.Data.Models
         public bool HasElevator { get; set; }
         public bool HasFurniture { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         [Required]
-        [ForeignKey(nameof(Type))]
+        [ForeignKey(nameof(PropertyType))]
         public int TypeId { get; set; }
-        public Type? Type { get; set; }
+        public PropertyType PropertyType { get; set; }
     }
 }
