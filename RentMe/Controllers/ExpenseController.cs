@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RentMe.Controllers
 {
+    [Authorize]
     public class ExpenseController : Controller
     {
+        public IActionResult Expenses()
+        {
+            return View();
+        }
+
         public IActionResult Add()
         {
             return View();

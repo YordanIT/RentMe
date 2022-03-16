@@ -17,26 +17,6 @@ namespace RentMe.Controllers
         {
             return View();
         }
-        public IActionResult ForRent()
-        {
-            return View("Views/Ads/ForRent.cshtml");
-        }
-
-        public IActionResult ForSale()
-        {
-            return View("Views/Ads/ForSale.cshtml");
-        }
-
-        public IActionResult Blog()
-        {
-            return View("Views/Blog/Articles.cshtml");
-        }
-
-        public IActionResult Add()
-        {
-            return View("Views/Blog/Add.cshtml");
-        }
-
         public IActionResult About()
         {
             return View();
