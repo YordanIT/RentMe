@@ -1,6 +1,6 @@
-﻿namespace RentMe.Models
+﻿namespace RentMe.Core.Models
 {
-    public class ArticleFormModel
+    public class ArticleViewModel
     {
         public string? Title { get; set; }
 

@@ -2,21 +2,12 @@
 
 namespace RentMe.Controllers
 {
-    public class TenantController : Controller
+    public class TenantController : BaseController
     {
         public IActionResult Register()
         {
             return View();
         }
 
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        public IActionResult Logout()
-        {
-            return View();
-        }
     }
 }

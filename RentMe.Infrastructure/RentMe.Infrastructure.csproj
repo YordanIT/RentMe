@@ -17,8 +17,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RentMe.Core\RentMe.Core.csproj" />
-  </ItemGroup>
-
 </Project>

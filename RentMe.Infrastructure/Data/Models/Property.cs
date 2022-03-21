@@ -1,4 +1,4 @@
-﻿using RentMe.Core.Common;
+﻿using RentMe.Infrastructure.Data.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

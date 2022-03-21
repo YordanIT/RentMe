@@ -23,7 +23,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RentMe.Core\RentMe.Core.csproj" />
-    <ProjectReference Include="..\RentMe.Infrastructure\RentMe.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\" />
   </ItemGroup>
 
 </Project>

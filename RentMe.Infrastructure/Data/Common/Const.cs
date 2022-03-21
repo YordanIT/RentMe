@@ -1,6 +1,6 @@
-﻿namespace RentMe.Core.Common
+﻿namespace RentMe.Infrastructure.Data.Common
 {
-    public static class Const
+    public class Const
     {
         //User
         public const int UsernameMinLenght = 3;
@@ -38,6 +38,5 @@
         public const int TitleMaxLength = 50;
         public const int ContentMinLength = 40;
         public const int ContentMaxLength = 4000;
-
     }
 }

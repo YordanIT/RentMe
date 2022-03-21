@@ -1,18 +1,21 @@
 using Microsoft.AspNetCore.Identity;
 using RentMe.Infrastructure.Data;
+using RentMe.Infrastructure.Data.Identity;
 using RentMe.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationDbContexts(builder.Configuration);
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoleManager<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+        
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
      {
          options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
-      });
+     });
 
 builder.Services.AddApplicationServices();
 
@@ -44,3 +47,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+

@@ -1,12 +1,20 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using RentMe.Infrastructure.Data.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
     ViewData["Title"] = "Blog";
 }
 
-<div>
-    <button>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Add">Add New Article</a>
-    </button>
-</div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <button>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Add">Add New Article</a>
+        </button>
+    </div>
+}
 <div>
     <h2>Modern design</h2>
     <article>

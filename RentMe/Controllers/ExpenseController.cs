@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace RentMe.Controllers
 {
     [Authorize]
-    public class ExpenseController : Controller
+    public class ExpenseController : BaseController
     {
         public IActionResult Expenses()
         {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace RentMe.Controllers
 {
     [Authorize]
-    public class PropertyController : Controller
+    public class PropertyController : BaseController
     {
         public IActionResult Add()
         {
