@@ -3,3 +3,8 @@
     border: double;
     background-color: lightgreen;
 }
+
+form-control {
+    resize: both;
+    overflow: auto;
+}

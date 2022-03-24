@@ -2,36 +2,35 @@
 @using RentMe.Infrastructure.Data.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<RentMe.Core.Models.ArticleViewModel>
 
 @{
     ViewData["Title"] = "Blog";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
+@if (SignInManager.IsSignedIn(User)){
     <div>
         <button>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Add">Add New Article</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="AddArticle">Add New Article</a>
         </button>
     </div>
 }
+<br/>
 <div>
-    <h2>Modern design</h2>
-    <article>
-        Modern design is rooted in modernism, the turn-of-the-century movement characterized by an emphasis on abstract thinking, functionality, and stark, simple forms.
-
-German and Scandinavian roots: You can trace the origins of modern design to German Bauhaus design and Scandinavian design. Also known as Staatliches Bauhaus, Bauhaus was a German school of design and subsequent art movement in the early twentieth century that married fine art and functionality in the visual arts, decorative arts, and architecture. The modern design aesthetics of the Bauhaus school include minimalistic functionality and experiments with shape.
-Modern art influence: Modern home design grew out of the modern art movement, which rejected the maximalist tendencies of Victorian design in favor of a form-follows-function philosophy. New technologies, industrialization, and access to building materials like steel and concrete also informed modern art and architecture from the 1920s to the early 1950s. Clean lines, floor-to-ceiling windows, open living spaces, and flat roofs became the dominant style of this era.
-Lasting legacy: By the end of World War II, young architects had begun to criticize the stark nature of minimalism. By the 1960s, minimalist sensibilities began to give way to a rebirth of ornamentation and postmodernism. Still, modernism’s legacy continues to live on in iconic buildings and as an inspiration for contemporary architecture.
-    </article>  
-    <h2>Modern design</h2>
-    <article>
-      Modern design is rooted in modernism, the turn-of-the-century movement characterized by an emphasis on abstract thinking, functionality, and stark, simple forms.
-
-German and Scandinavian roots: You can trace the origins of modern design to German Bauhaus design and Scandinavian design. Also known as Staatliches Bauhaus, Bauhaus was a German school of design and subsequent art movement in the early twentieth century that married fine art and functionality in the visual arts, decorative arts, and architecture. The modern design aesthetics of the Bauhaus school include minimalistic functionality and experiments with shape.
-Modern art influence: Modern home design grew out of the modern art movement, which rejected the maximalist tendencies of Victorian design in favor of a form-follows-function philosophy. New technologies, industrialization, and access to building materials like steel and concrete also informed modern art and architecture from the 1920s to the early 1950s. Clean lines, floor-to-ceiling windows, open living spaces, and flat roofs became the dominant style of this era.
-Lasting legacy: By the end of World War II, young architects had begun to criticize the stark nature of minimalism. By the 1960s, minimalist sensibilities began to give way to a rebirth of ornamentation and postmodernism. Still, modernism’s legacy continues to live on in iconic buildings and as an inspiration for contemporary architecture.
-    </article>
+    @foreach (var item in Model){
+        <h3>@item.Title</h3>
+        if (User.IsInRole("Admin")){
+            <div>
+                <button>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Delete">Delete Article</a>
+                </button>
+            </div>
+        }
+        <article>
+        @item.Content
+    </article> 
+    <br/>
+    }
 </div>
 
 

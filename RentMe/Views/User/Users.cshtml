@@ -4,11 +4,11 @@
     ViewData["Title"] = "Users";
 }
 
-<h2>Application users</h2>
+<h3>Application users</h3>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                @Html.ActionLink("Set as admin", "SetAsAdmin", new { id=item.Id }) @*|
+                @Html.ActionLink("Set as admin", "SetAsAdmin", "User", new { id=item.Id }) @*|
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>

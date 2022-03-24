@@ -1,28 +1,62 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentMe.Infrastructure.Data;
-using RentMe.Infrastructure.Data.Models;
-using RentMe.Models;
+using RentMe.Core.Contracts;
+using RentMe.Core.Models;
 
 namespace RentMe.Controllers
 {
     public class BlogController : BaseController
     {
-        //"Views/Blog/Articles.cshtml"
+
+        private readonly IBlogService service;
+
+        public BlogController(IBlogService _service)
+        {
+            service = _service;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ArticleFormModel article)
+        {
+            try
+            {
+                await service.AddArticle(article);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
+
+            return RedirectToAction(nameof(Articles));
+        }
+
+        //to do : is not working
+        [HttpPut]
+        public async Task<IActionResult> Delete(ArticleEditModel article)
+        {
+            try
+            {
+                await service.DeleteArticle(article);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
+
+            return RedirectToAction(nameof(Articles));
+        }
+
+        public IActionResult AddArticle()
+        {
+            return View();
+        }
+
         [AllowAnonymous]
         public IActionResult Articles()
         {
-            return View();
-        }
+            var articles = service.GetArticles();
 
-        public IActionResult Add()
-        {
-            return View();
-        }
-
-        public IActionResult Remove()
-        {
-            return View();
+            return View(articles);
         }
     }
 }

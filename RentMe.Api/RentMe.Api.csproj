@@ -17,6 +17,11 @@
   <ItemGroup>
     <ProjectReference Include="..\RentMe.Core\RentMe.Core.csproj" />
     <ProjectReference Include="..\RentMe.Infrastructure\RentMe.Infrastructure.csproj" />
+    <ProjectReference Include="..\RentMe\RentMe.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

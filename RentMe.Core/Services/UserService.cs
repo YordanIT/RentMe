@@ -20,28 +20,24 @@ namespace RentMe.Core.Services
             userManager = _userManager;
         }
 
-        public async Task<UserEditViewModel> SetAsAdmin(string id)
+        public async Task SetAsAdmin(object id)
         {
             var user = await repo.GetByIdAsync<ApplicationUser>(id);
             await userManager.AddToRoleAsync(user, Const.RoleAdmin);
-
-            return new UserEditViewModel()
-            {
-                Id = user.Id,
-                Role = ""//string.Join(", ", userManager.GetRolesAsync(user).Result.ToArray())
-            };
         }
 
         public IEnumerable<UserListViewModel> GetUsers()
         {
-            //to do : it is not working
             return repo.All<ApplicationUser>()
+                .ToList()
                 .Select(u => new UserListViewModel()
                 {
                     Email = u.Email,
                     Id = u.Id,
                     Name = $"{u.FirstName} {u.LastName}",
-                    Role = ""//string.Join(", ", userManager.GetRolesAsync(u).Result.ToList())
+                    Role = userManager.GetRolesAsync(u).Result.ToList().Any() ?
+                    string.Join(", ", userManager.GetRolesAsync(u).Result.ToList())
+                    : "Landlord"
                 })
                 .ToList();
         }
