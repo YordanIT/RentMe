@@ -37,7 +37,7 @@ namespace RentMe.Core.Services
 
         }
 
-        public async Task DeleteArticle(ArticleEditModel model)
+        public async Task DeleteArticle(ArticleViewModel model)
         {
             var article = await repo.All<Article>()
                 .Where(a => a.IsDeleted == false)
@@ -63,7 +63,9 @@ namespace RentMe.Core.Services
                     Id = a.Id,
                     Title = a.Title,
                     Content = a.Content
-                }).ToList();
+                })
+                .OrderByDescending(x => x.Id)
+                .ToList();
 
             return articles;
         }

@@ -5,7 +5,7 @@ namespace RentMe.Core.Contracts
     public interface IBlogService
     {
         Task AddArticle(ArticleFormModel article);
-        Task DeleteArticle(ArticleEditModel article);
+        Task DeleteArticle(ArticleViewModel article);
         IEnumerable<ArticleViewModel> GetArticles();
     }
 }

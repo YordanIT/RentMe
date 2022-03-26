@@ -5,6 +5,7 @@ namespace RentMe.Core.Contracts
     public interface IUserService
     {
         IEnumerable<UserListViewModel> GetUsers();
-        Task SetAsAdmin(object id);
+        Task SetAsAdmin(string id);
+        Task SetAsLandlord(string id);
     }
 }

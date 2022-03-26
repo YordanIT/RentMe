@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Role)
             </th>
+            <th>
+                Set As
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -43,9 +46,8 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                @Html.ActionLink("Set as admin", "SetAsAdmin", "User", new { id=item.Id }) @*|
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                @Html.ActionLink("Admin", "SetAsAdmin", "User", item, null) <br/>
+                @Html.ActionLink("Landlord", "SetAsLandlord", item, null) 
             </td>
         </tr>
 }

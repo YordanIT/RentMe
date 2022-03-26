@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentMe.Core.Contracts;
+using RentMe.Core.Models;
 
 namespace RentMe.Controllers
 {
@@ -26,22 +27,27 @@ namespace RentMe.Controllers
             return View(users);
         }
 
-        //to do : not working
-        [HttpPost]
-        public async Task<IActionResult> SetAsAdmin(object id)
+        public async Task<IActionResult> SetAsAdmin(UserListViewModel user)
         {
-           var user = service.SetAsAdmin(id);
+            await service.SetAsAdmin(user.Id);
+
+            return RedirectToAction(nameof(Users));
+        }
+
+        public async Task<IActionResult> SetAsLandlord(UserListViewModel user)
+        {
+            await service.SetAsLandlord(user.Id);
 
             return RedirectToAction(nameof(Users));
         }
 
         public async Task<IActionResult> CreateRole()
         {
-            //await roleManager.CreateAsync(new IdentityRole()
-            //{
-            //    //Name = "Admin"
-            //    Name = "Landlord"
-            //});
+            await roleManager.CreateAsync(new IdentityRole()
+            {
+                Name = "Admin"
+                //Name = "Landlord"
+            });
 
             return RedirectToAction(nameof(Users));
         }

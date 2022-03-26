@@ -3,6 +3,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @model IEnumerable<RentMe.Core.Models.ArticleViewModel>
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
 @{
     ViewData["Title"] = "Blog";
@@ -10,7 +11,7 @@
 
 @if (SignInManager.IsSignedIn(User)){
     <div>
-        <button>
+        <button class="edit-button">
             <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="AddArticle">Add New Article</a>
         </button>
     </div>
@@ -21,12 +22,10 @@
         <h3>@item.Title</h3>
         if (User.IsInRole("Admin")){
             <div>
-                <button>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Delete">Delete Article</a>
-                </button>
+                @Html.ActionLink("Delete", "Delete", "Blog", item, null)
             </div>
         }
-        <article>
+        <article class="paragraph-client-side">
         @item.Content
     </article> 
     <br/>

@@ -4,7 +4,16 @@
     background-color: lightgreen;
 }
 
-form-control {
+.paragraph-client-side{
+    display: block;
+    border: double;
+    background-color: whitesmoke;
+    padding: 10px;
+}
+
+/*to do : resizing input field not working*/
+.form-control {
     resize: both;
     overflow: auto;
 }
+

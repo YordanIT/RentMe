@@ -20,10 +20,16 @@ namespace RentMe.Core.Services
             userManager = _userManager;
         }
 
-        public async Task SetAsAdmin(object id)
+        public async Task SetAsAdmin(string id)
         {
             var user = await repo.GetByIdAsync<ApplicationUser>(id);
             await userManager.AddToRoleAsync(user, Const.RoleAdmin);
+        }
+
+        public async Task SetAsLandlord(string id)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(id);
+            await userManager.RemoveFromRoleAsync(user, Const.RoleAdmin);
         }
 
         public IEnumerable<UserListViewModel> GetUsers()

@@ -30,9 +30,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Articles));
         }
 
-        //to do : is not working
-        [HttpPut]
-        public async Task<IActionResult> Delete(ArticleEditModel article)
+        public async Task<IActionResult> Delete(ArticleViewModel article)
         {
             try
             {
