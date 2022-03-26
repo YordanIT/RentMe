@@ -6,7 +6,6 @@ using RentMe.Core.Models;
 
 namespace RentMe.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class UserController : BaseController
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -19,7 +18,13 @@ namespace RentMe.Controllers
             roleManager = _roleManager;
             service = _service;
         }
+            
+        public IActionResult RegisterUserNames(UserFormModel user)
+        {
+            return View();
+        }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
             var users = service.GetUsers();
@@ -27,6 +32,7 @@ namespace RentMe.Controllers
             return View(users);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SetAsAdmin(UserListViewModel user)
         {
             await service.SetAsAdmin(user.Id);
@@ -34,6 +40,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Users));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SetAsLandlord(UserListViewModel user)
         {
             await service.SetAsLandlord(user.Id);
@@ -41,6 +48,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Users));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRole()
         {
             await roleManager.CreateAsync(new IdentityRole()

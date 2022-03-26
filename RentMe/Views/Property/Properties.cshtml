@@ -1,9 +1,78 @@
-﻿@{
-    ViewData["Title"] = "Properties";
+﻿@model IEnumerable<RentMe.Core.Models.PropertyListViewModel>
+
+@{
+    ViewData["Title"] = "My Properties";
 }
 
-<div>
-    <button>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="Add">Add New Peoprety</a>
+<p>
+    <button class="edit-button">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="AddProperty">Add New Propery</a>
     </button>
-</div>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Floor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                Parking
+            </th>
+            <th>
+                Elevator
+            </th>
+            <th>
+                Furniture
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Floor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasParking)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasElevator)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasFurniture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
