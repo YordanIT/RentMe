@@ -25,4 +25,8 @@
     <ProjectReference Include="..\RentMe.Core\RentMe.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Tenant\" />
+  </ItemGroup>
+
 </Project>

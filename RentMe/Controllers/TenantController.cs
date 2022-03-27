@@ -4,7 +4,7 @@ namespace RentMe.Controllers
 {
     public class TenantController : BaseController
     {
-        public IActionResult Register()
+        public IActionResult Tenants()
         {
             return View();
         }
