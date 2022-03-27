@@ -7,5 +7,6 @@ namespace RentMe.Core.Contracts
         IEnumerable<UserListViewModel> GetUsers();
         Task SetAsAdmin(string id);
         Task SetAsLandlord(string id);
+        Task SetNames(string id, UserFormModel user);
     }
 }

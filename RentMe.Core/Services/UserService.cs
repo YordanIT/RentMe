@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using RentMe.Core.Common;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
@@ -18,6 +17,15 @@ namespace RentMe.Core.Services
         {
             repo = _repo;
             userManager = _userManager;
+        }
+
+        public async Task SetNames(string id, UserFormModel model)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(id);
+            user.FirstName = model.FirstName?.Trim();
+            user.LastName = model.LastName?.Trim();
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task SetAsAdmin(string id)

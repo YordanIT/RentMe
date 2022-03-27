@@ -5,7 +5,7 @@ namespace RentMe.Core.Models
 {
 	public class UserFormModel
 	{
-		[Required]
+        [Required]
 		[StringLength(Const.FirstNameMaxLength, MinimumLength = Const.FirstNameMinLength,
 			ErrorMessage = "{0} must be between {2} and {1} symbols")]
 		public string? FirstName { get; set; }

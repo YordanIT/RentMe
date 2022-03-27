@@ -9,7 +9,13 @@
         <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="AddProperty">Add New Propery</a>
     </button>
 </p>
-
+@if(User.IsInRole("Admin")){
+<p>
+    <button class="edit-button">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="AddPropertyType">Add New Property Type</a>
+    </button>
+</p>
+}
 <table class="table">
     <thead>
         <tr>
