@@ -1,5 +1,6 @@
 ﻿using RentMe.Infrastructure.Data.Common;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentMe.Infrastructure.Data.Models
 {
@@ -23,6 +24,11 @@ namespace RentMe.Infrastructure.Data.Models
         public string? Phone { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+
+        [Required]
+        [ForeignKey(nameof(Property))]
+        public Guid PropertyId { get; set; }
+        public Property Property { get; set; }
 
         public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
     }
