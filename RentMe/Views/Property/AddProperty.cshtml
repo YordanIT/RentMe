@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "New Property";
-}
+ }
 
 <hr />
 <div class="row">
@@ -45,9 +45,8 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <label asp-for="Type" class="control-lable"></label>  
+                    <select asp-for="Type" asp-items="ViewBag.PropertyTypes" class="custom-select"></select>  
             </div>
             <br/>
             <div class="form-group">

@@ -37,6 +37,10 @@ namespace RentMe.Controllers
 
         public IActionResult AddProperty()
         {
+            var propertyTypes = service.GetPropertyTypes();
+
+            ViewBag.PropertyTypes = propertyTypes;
+
             return View();
             
         }
@@ -67,6 +71,20 @@ namespace RentMe.Controllers
             try
             {
                 await service.AddPropertyType(propertyType);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
+
+            return RedirectToAction(nameof(Properties));
+        }
+
+        public async Task<IActionResult> Delete(PropertyListViewModel property)
+        {
+            try
+            {
+                await service.DeleteProperty(property);
             }
             catch (ArgumentException ae)
             {

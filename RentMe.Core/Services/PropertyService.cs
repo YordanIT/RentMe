@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
 using RentMe.Infrastructure.Data.Identity;
@@ -20,6 +21,7 @@ namespace RentMe.Core.Services
         {
             var property = await repo.All<Property>()
                 .Where(p => p.IsDeleted == false)
+                .Where(p => p.City == model.City)
                 .FirstOrDefaultAsync(p => p.Address == model.Address);
 
             if (property != null)
@@ -27,9 +29,11 @@ namespace RentMe.Core.Services
                 throw new ArgumentException("Property with this address already exists!");
             }
 
+            PropertyType propertyType = await repo.All<PropertyType>().FirstAsync(pt => pt.Type == model.Type);
+
             property = new Property
             {
-                TypeId = 1,
+                TypeId = propertyType.Id,
                 Address = model.Address,
                 Area = model.Area,
                 City = model.City,
@@ -81,20 +85,6 @@ namespace RentMe.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeletePropertyType(PropertyTypeViewModel model)
-        {
-            var property = await repo.All<PropertyType>()
-                   .FirstOrDefaultAsync(p => p.Id == model.Id);
-
-            if (property == null)
-            {
-                throw new ArgumentException("PropertyType does not exist!");
-            }
-            
-            await repo.DeleteAsync<PropertyType>(property);
-            await repo.SaveChangesAsync();
-        }
-
         public IEnumerable<PropertyListViewModel> GetProperties(ApplicationUser user)
         {
             var properties = repo.All<Property>()
@@ -103,6 +93,7 @@ namespace RentMe.Core.Services
                 .ToList()
                 .Select(p => new PropertyListViewModel
                 {
+                    Id = p.Id,
                     Type = repo.All<PropertyType>().First(t => t.Id == p.TypeId).Type,
                     Address = p.Address,
                     Area = p.Area,
@@ -114,6 +105,17 @@ namespace RentMe.Core.Services
                 }).ToList();
 
             return properties;
+        }
+
+        public IEnumerable<SelectListItem> GetPropertyTypes()
+        {
+            var propertyTypes = repo.All<PropertyType>()
+                .Select(pt => new SelectListItem
+                {
+                    Text = pt.Type
+                }).ToList();
+
+            return propertyTypes;
         }
     }
 }

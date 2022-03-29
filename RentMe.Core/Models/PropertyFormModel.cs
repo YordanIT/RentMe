@@ -27,6 +27,6 @@ namespace RentMe.Core.Models
         public bool HasFurniture { get; set; }
 
         [Required]
-		public string[]? Type { get; set; }
+		public string? Type { get; set; }
 	}
 }
