@@ -6,7 +6,7 @@
 
 <p>
     <button class="button">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="AddProperty">Add New Propery</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="AddProperty">Add New Property</a>
     </button>
 </p>
 @if(User.IsInRole("Admin")){
@@ -80,8 +80,8 @@
                 @Html.DisplayFor(modelItem => item.HasFurniture)
             </td>
             <td>
-                @Html.ActionLink("Info", "TenantInfo", "Tenant")
-                </td>
+                @Html.ActionLink("Info", "TenantInfo", "Tenant", item, null)
+            </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", "Property", item, null)
             </td>

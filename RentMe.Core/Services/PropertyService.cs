@@ -72,7 +72,7 @@ namespace RentMe.Core.Services
         public async Task DeleteProperty(PropertyListViewModel model)
         {
             var property = await repo.All<Property>()
-               .Where(a => a.IsDeleted == false)
+               .Where(p => p.IsDeleted == false)
                .FirstOrDefaultAsync(p => p.Id == model.Id);
 
             if (property == null)
@@ -102,7 +102,9 @@ namespace RentMe.Core.Services
                     HasParking = p.HasParking,
                     HasElevator = p.HasElevator,
                     HasFurniture = p.HasFurniture
-                }).ToList();
+                })
+                .OrderByDescending(p => p.Area)
+                .ToList();
 
             return properties;
         }

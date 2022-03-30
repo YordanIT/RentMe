@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IPropertyService, PropertyService>();
-            //services.AddScoped<ITenantService, TenantService>();
+            services.AddScoped<ITenantService, TenantService>();
             //services.AddScoped<IAdService, AdService>();
 
             return services;
