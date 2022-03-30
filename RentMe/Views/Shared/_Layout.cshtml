@@ -26,24 +26,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ad" asp-action="ForRent">For Rent</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ad" asp-action="ForRent">FOR RENT</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Articles">Blog</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Articles">BLOG</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">ABOUT</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User)){
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tenant" asp-action="Tenants">Tenants</a>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="Properties">My Properties</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="Properties">MY PROPERTIES</a>
                             </li>
                             if(User.IsInRole("Admin")){
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Users">Users</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Users">USERS</a>
                                 </li>
                             }
                         }

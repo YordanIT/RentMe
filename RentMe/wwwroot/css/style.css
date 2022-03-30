@@ -1,10 +1,10 @@
-.for-rent-ad{
+.for-rent-ad {
     display: block;
     border: double;
     background-color: lightgreen;
 }
 
-.paragraph-client-side{
+.paragraph-client-side {
     display: block;
     border: double;
     background-color: whitesmoke;
@@ -17,7 +17,42 @@
     overflow: auto;
 }
 
+.intro-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    resize: vertical;
+    position: center;
+}
+@media only screen and (max-width : 360px) {
+    .intro-image {
+        display: none;
+    }
+}
+
+.intro-title {
+    color: dimgrey;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 275px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+
+.intro-content {
+    color: #111;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 32px;
+    margin: 0 0 72px;
+    text-align: center;
+}
+
 .button {
+    width: 300px;
     appearance: button;
     background-color: #1899D6;
     border: solid transparent;
@@ -46,41 +81,40 @@
     white-space: nowrap;
 }
 
-.button:after {
-    background-clip: padding-box;
-    background-color: #1CB0F6;
-    border: solid transparent;
-    border-radius: 16px;
-    border-width: 0 0 4px;
-    bottom: -4px;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: -1;
-}
+    .button:after {
+        background-clip: padding-box;
+        background-color: #1CB0F6;
+        border: solid transparent;
+        border-radius: 16px;
+        border-width: 0 0 4px;
+        bottom: -4px;
+        content: "";
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: -1;
+    }
 
-.button:main, button:focus {
-    user-select: auto;
-}
+    .button:main, button:focus {
+        user-select: auto;
+    }
 
-.button:hover:not(:disabled) {
-    filter: brightness(1.1);
-}
+    .button:hover:not(:disabled) {
+        filter: brightness(1.1);
+    }
 
-.button:disabled {
-    cursor: auto;
-}
+    .button:disabled {
+        cursor: auto;
+    }
 
-.button:active:after {
-    border-width: 0 0 0px;
-}
+    .button:active:after {
+        border-width: 0 0 0px;
+    }
 
-.button:active {
-    padding-bottom: 10px;
-}
-   
+    .button:active {
+        padding-bottom: 10px;
+    }
 
 
 
