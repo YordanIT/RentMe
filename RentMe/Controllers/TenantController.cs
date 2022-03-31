@@ -21,7 +21,7 @@ namespace RentMe.Controllers
             {
                 return RedirectToAction(nameof(AddTenant), model);
             }
-           
+
             return View(tenant);
         }
 
@@ -29,7 +29,7 @@ namespace RentMe.Controllers
         {
             var properties = service.GetProperties(model);
             ViewBag.Properties = properties;
-          
+
             return View();
         }
 
@@ -43,6 +43,20 @@ namespace RentMe.Controllers
             catch (ArgumentException)
             {
                 return BadRequest("Unexpected error!");
+            }
+
+            return Redirect("~/Property/Properties");
+        }
+
+        public async Task<IActionResult> RemoveTenant(TenantViewModel tenant)
+        {
+            try
+            {
+                await service.RemoveTenant(tenant);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
             }
 
             return Redirect("~/Property/Properties");

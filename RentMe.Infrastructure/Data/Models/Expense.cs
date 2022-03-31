@@ -25,6 +25,5 @@ namespace RentMe.Infrastructure.Data.Models
 
         public Guid PropertyId { get; set; }
         public Property? Property { get; set; }
-
     }
 }

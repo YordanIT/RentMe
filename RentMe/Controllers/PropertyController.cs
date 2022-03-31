@@ -42,7 +42,6 @@ namespace RentMe.Controllers
             ViewBag.PropertyTypes = propertyTypes;
 
             return View();
-            
         }
 
         [HttpPost]

@@ -1,29 +1,68 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentMe.Core.Contracts;
+using RentMe.Core.Models;
 
 namespace RentMe.Controllers
 {
     [Authorize]
     public class ExpenseController : BaseController
     {
-        public IActionResult Expenses()
+        private readonly IExpenseService service;
+
+        public ExpenseController(IExpenseService _service)
         {
+            service = _service;
+        }
+
+        public IActionResult Expenses(TenantViewModel model)
+        {
+            var expenses = service.GetExpenses(model);
+
+            if (expenses == null)
+            {
+                return RedirectToAction(nameof(AddExpense), model);
+            }
+
+            return View(expenses);
+        }
+
+        public IActionResult AddExpense(TenantViewModel model)
+        {
+            //To Do : add viewbag tenant
+            //var tenant = service.GetTenant(model);
+            //ViewBag.Tenant = tenant;
+
             return View();
         }
 
-        public IActionResult Add()
+        [HttpPost]
+        public async Task<IActionResult> CreateExpense(ExpenseFormModel tenant)
         {
-            return View();
+            try
+            {
+                await service.AddExpense(tenant);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest("Unexpected error!");
+            }
+
+            return RedirectToAction(nameof(Expenses));
         }
 
-        public IActionResult Remove()
+        public async Task<IActionResult> DeleteExpense(ExpenseListViewModel tenant)
         {
-            return View();
-        }
+            try
+            {
+                await service.DeleteExpense(tenant);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
 
-        public IActionResult Pay()
-        {
-            return View();
+            return RedirectToAction(nameof(Expenses));
         }
     }
 }
