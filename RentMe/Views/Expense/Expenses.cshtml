@@ -4,22 +4,17 @@
     ViewData["Title"] = "Expenses";
 }
 
-<h1>Expenses</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+     @Html.ActionLink("ADD EXPENSES", "AddExpense", "Expense", Model.First(), null)
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Rent)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EntranceFee)
+                Entrance Fee
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Heating)
@@ -34,23 +29,26 @@
                 @Html.DisplayNameFor(model => model.Other)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsPaid)
+                Total
+            </th>
+            <th>
+                Paid
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PropertyId)
+                Mark
             </th>
-            <th></th>
+            <th>
+                Delete
+            </th>
+	        <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Rent)
             </td>
@@ -70,18 +68,19 @@
                 @Html.DisplayFor(modelItem => item.Other)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IsPaid)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PropertyId)
+                @Html.ActionLink("Paid", "EditExpense", "Expense", item, null) 
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "DeleteExpense", "Expense", item, null)
             </td>
         </tr>
 }

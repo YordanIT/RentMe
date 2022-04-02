@@ -17,6 +17,6 @@ namespace RentMe.Core.Models
         public string? Comment { get; set; }
 
         [Required]
-        public string? Tenant { get; set; }
+        public string? TenantEmail { get; set; }
     }
 }

@@ -15,54 +15,75 @@ namespace RentMe.Controllers
             service = _service;
         }
 
-        public IActionResult Expenses(TenantViewModel model)
+        public IActionResult Expenses(TenantViewModel tenant)
         {
-            var expenses = service.GetExpenses(model);
-
-            if (expenses == null)
+            var expenses = service.GetExpenses(tenant);
+            
+            if (!expenses.Any())
             {
-                return RedirectToAction(nameof(AddExpense), model);
+                return RedirectToAction(nameof(AddInitialExpense), tenant);
             }
 
             return View(expenses);
         }
 
-        public IActionResult AddExpense(TenantViewModel model)
+        public IActionResult AddExpense(ExpenseListViewModel model)
         {
-            //To Do : add viewbag tenant
-            //var tenant = service.GetTenant(model);
-            //ViewBag.Tenant = tenant;
+            var tenants = service.GetTenant(model);
+            ViewBag.Tenants = tenants;
+
+            return View();
+        }
+
+        public IActionResult AddInitialExpense(TenantViewModel model)
+        {
+            var tenants = service.GetTenant(model);
+            ViewBag.Tenants = tenants;
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateExpense(ExpenseFormModel tenant)
+        public async Task<IActionResult> CreateExpense(ExpenseFormModel expense)
         {
             try
             {
-                await service.AddExpense(tenant);
+                await service.AddExpense(expense);
             }
             catch (ArgumentException)
             {
                 return BadRequest("Unexpected error!");
             }
 
-            return RedirectToAction(nameof(Expenses));
+            return Ok("Successfully added expenses!");
         }
 
-        public async Task<IActionResult> DeleteExpense(ExpenseListViewModel tenant)
+        public async Task<IActionResult> DeleteExpense(ExpenseListViewModel expense)
         {
             try
             {
-                await service.DeleteExpense(tenant);
+                await service.DeleteExpense(expense);
             }
             catch (ArgumentException ae)
             {
                 return BadRequest(ae.Message);
             }
 
-            return RedirectToAction(nameof(Expenses));
+            return Ok("Successfully delete expenses!");
+        }
+
+        public async Task<IActionResult> EditExpense(ExpenseListViewModel expense)
+        {
+            try
+            {
+                await service.EditExpense(expense);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
+
+            return Ok("Successfully mark as paid!");
         }
     }
 }

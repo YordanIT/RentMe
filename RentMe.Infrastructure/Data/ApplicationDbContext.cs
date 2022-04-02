@@ -33,8 +33,12 @@ namespace RentMe.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.Ignore<Type>();
+
+            modelBuilder.Entity<Tenant>()
+                        .HasIndex(t => t.Email)
+                        .IsUnique();
         }
 
     }

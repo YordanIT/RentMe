@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
 using RentMe.Infrastructure.Data.Models;
@@ -17,7 +18,7 @@ namespace RentMe.Core.Services
 
         public async Task AddExpense(ExpenseFormModel model)
         {
-            var tenant = await repo.All<Tenant>().FirstAsync(t => t.Email == model.Tenant);
+            var tenant = await repo.All<Tenant>().FirstAsync(t => t.Email == model.TenantEmail);
             var propertyId = tenant.PropertyId;
 
             var expense = new Expense
@@ -29,10 +30,12 @@ namespace RentMe.Core.Services
               Water = model.Water,
               Other = model.Other,
               Comment = model.Comment,
-              PropertyId = propertyId
+              PropertyId = propertyId,
+              Tenant = tenant
             };
 
             tenant.Expenses.Add(expense);
+            repo.Update(tenant);
 
             await repo.AddAsync(expense);
             await repo.SaveChangesAsync();
@@ -54,7 +57,7 @@ namespace RentMe.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task EditExpense(ExpenseEditViewModel model)
+        public async Task EditExpense(ExpenseListViewModel model)
         {
             var expense = await repo.All<Expense>()
                .Where(e => e.IsDeleted == false)
@@ -75,7 +78,8 @@ namespace RentMe.Core.Services
             var tenant = repo.All<Tenant>()
                 .First(t => t.Id.ToString() == model.Id);
 
-            var expenses = tenant.Expenses
+            var expenses = repo.All<Expense>()
+                .Where(e => e.TenantId == tenant.Id)
                 .Where(e => e.IsDeleted == false)
                 .ToList()
                 .Select(e => new ExpenseListViewModel
@@ -87,14 +91,38 @@ namespace RentMe.Core.Services
                     Heating = e.Heating,
                     Water = e.Water,
                     EntranceFee = e.EntranceFee,
-                    Other = e.Other,
+                    Other = (decimal)(e.Other == null ? 0 : e.Other),
                     Comment = e.Comment,
-                    PropertyId = e.PropertyId.ToString()
-                })
-                .OrderBy(e => e.IsPaid)
-                .ToList();
+                    PropertyId = e.PropertyId.ToString(),
+                }).ToList();
 
             return expenses;
+        }
+
+        public IEnumerable<SelectListItem> GetTenant(ExpenseListViewModel model)
+        {
+            var tenants = repo.All<Tenant>()
+               .Where(t => t.IsDeleted == false)
+               .Where(t => t.PropertyId.ToString() == model.PropertyId)
+               .Select(t => new SelectListItem
+               {
+                   Text = t.Email,
+               }).ToList();
+
+            return tenants;
+        }
+
+        public IEnumerable<SelectListItem> GetTenant(TenantViewModel model)
+        {
+            var tenants = repo.All<Tenant>()
+               .Where(t => t.IsDeleted == false)
+               .Where(t => t.Id.ToString() == model.Id)
+               .Select(t => new SelectListItem
+               {
+                   Text = t.Email,
+               }).ToList();
+
+            return tenants;
         }
     }
 }
