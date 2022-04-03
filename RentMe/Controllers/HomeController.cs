@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentMe.Core.Models;
 using RentMe.Models;
 using System.Diagnostics;
 
@@ -21,6 +22,11 @@ namespace RentMe.Controllers
         public IActionResult About()
         {
             return View();
+        }
+
+        public IActionResult Message(Message message)
+        {
+            return View(message);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

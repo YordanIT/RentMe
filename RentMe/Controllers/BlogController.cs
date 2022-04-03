@@ -24,7 +24,7 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException ae)
             {
-                return BadRequest(ae.Message);
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
             }
 
             return RedirectToAction(nameof(Articles));
@@ -38,7 +38,7 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException ae)
             {
-                return BadRequest(ae.Message);
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
             }
 
             return RedirectToAction(nameof(Articles));

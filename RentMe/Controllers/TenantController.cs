@@ -40,9 +40,9 @@ namespace RentMe.Controllers
             {
                 await service.AddTenant(tenant);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ae)
             {
-                return BadRequest("Unexpected error!");
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
             }
 
             return Redirect("~/Property/Properties");
@@ -56,7 +56,7 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException ae)
             {
-                return BadRequest(ae.Message);
+                return RedirectToAction("Message", "Home", new Message { Text = ae.Message });
             }
 
             return Redirect("~/Property/Properties");

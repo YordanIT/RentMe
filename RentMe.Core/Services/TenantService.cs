@@ -41,8 +41,14 @@ namespace RentMe.Core.Services
         public async Task AddTenant(TenantFormModel model)
         {
             var proprerty = await repo.All<Property>().FirstAsync(p => p.Address == model.Address);
+            var tenant = await repo.All<Tenant>().FirstOrDefaultAsync(t => t.Email == model.Email);
 
-            var tenant = new Tenant
+            if (tenant != null)
+            {
+                throw new ArgumentException("Tenant with this email already exists!");
+            }
+
+            tenant = new Tenant
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,

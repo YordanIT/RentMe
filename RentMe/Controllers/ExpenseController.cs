@@ -52,10 +52,10 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException)
             {
-                return BadRequest("Unexpected error!");
+                return RedirectToAction("Message", "Home", new Message { Text = "Unexpected error! Try again!" });
             }
 
-            return Ok("Successfully added expenses!");
+            return RedirectToAction("Message", "Home", new Message { Text = "Successfully added expenses! Enjoy your stay at RentMe" });
         }
 
         public async Task<IActionResult> DeleteExpense(ExpenseListViewModel expense)
@@ -66,10 +66,10 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException ae)
             {
-                return BadRequest(ae.Message);
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
             }
 
-            return Ok("Successfully delete expenses!");
+            return RedirectToAction("Message", "Home", new Message { Text = "Successfully deleted expenses! Enjoy your stay at RentMe" });
         }
 
         public async Task<IActionResult> EditExpense(ExpenseListViewModel expense)
@@ -80,10 +80,10 @@ namespace RentMe.Controllers
             }
             catch (ArgumentException ae)
             {
-                return BadRequest(ae.Message);
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
             }
 
-            return Ok("Successfully mark as paid!");
+            return RedirectToAction("Message", "Home", new Message { Text = "Successfully mark as paid! Enjoy your stay at RentMe" });
         }
     }
 }
