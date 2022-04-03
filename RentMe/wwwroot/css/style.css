@@ -11,6 +11,15 @@
     padding: 10px;
 }
 
+.box {
+    width: 500px;
+    border: 3px dotted;
+    border-color: darkblue;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+}
+
 /*to do : resizing input field not working*/
 .form-control {
     resize: both;

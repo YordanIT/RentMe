@@ -1,52 +1,50 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using RentMe.Infrastructure.Data.Identity
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<RentMe.Core.Models.AdListViewModel>
 
 @{
     ViewData["Title"] = "For Rent";
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
+    @if (User.IsInRole("Admin")){
+        <div>
+            <button class="button">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Ad" asp-action="AddAd">Add Advertisement</a>
+            </button>
+        </div>
+    }
+    <br/>
+    
     <div>
-        <button>
-            <a class="button" asp-area="" asp-controller="Ad" asp-action="Add">Add Advertisement</a>
-        </button>
-    </div>
-}
-<div>
-    <img src="~/logo-house.png" alt="image" /> 
-    <img src="~/logo-house.png" alt="image" /> 
-    <img src="~/logo-house.png" alt="image" /> 
+    @foreach (var item in Model){
+        <h4>@item.Description</h4>
+        <br/>
+        <div>
+        <img src="~/house-3d-png.jpg" alt="image" width=400px/> 
+        <img src="~/house-3d-png.jpg" alt="image" width=400px/> 
+        <img src="~/house-3d-png.jpg" alt="image" width=400px/> 
+        </div>
+        <br/>
+        if (User.IsInRole("Admin")){
+            <div>
+                @Html.ActionLink("DELETE", "Delete", "Ad", item, null)
+            </div>
+        }
+        <div class="box">
+            <p>Type:        @item.Type</p>
+            <p>Price:       @item.Price €/month</p>
+            <p>City:        @item.City</p>
+            <p>Address:     @item.Address</p>
+            <p>Floor:       @item.Floor</p>
+            <p>Area:        @item.Area sq.m.</p>
+            <p>Parking:     @item.HasParking</p>
+            <p>Elevator:    @item.HasElevator</p>
+            <p>Furniture:   @item.HasFurniture</p>
+            <p>Phone:       @item.Phone</p>
+            <p>Email:       @item.Email</p>
+        </div> 
+    <br/>
+    }
 </div>
-<div class="paragraph-client-side">
-    <p>Type: Single-bedroom apartment</p>
-    <p>City: Sofia</p>
-    <p>Address: Iztok 23</p>
-    <p>Floor: 5</p>
-    <p>Area: 55 sq.m.</p>
-    <p>Parking: Yes</p>
-    <p>Elevator: Yes</p>
-    <p>Furniture: Yes</p>
-    <p>Price: 700 $</p>
-    <p>Description: so good</p>
-</div>
-<div>
-    <img src="~/logo-house.png" alt="image" /> 
-    <img src="~/logo-house.png" alt="image" /> 
-    <img src="~/logo-house.png" alt="image" /> 
-</div>
-<div class="for-rent-ad">
-    <p>Type: Single-bedroom apartment</p>
-    <p>City: Sofia</p>
-    <p>Address: Iztok 23</p>
-    <p>Floor: 5</p>
-    <p>Area: 55 sq.m.</p>
-    <p>Parking: Yes</p>
-    <p>Elevator: Yes</p>
-    <p>Furniture: Yes</p>
-    <p>Price: 70 000 $</p>
-    <p>Description: so bad</p>
-</div>
+
 
