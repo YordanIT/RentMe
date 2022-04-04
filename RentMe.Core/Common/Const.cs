@@ -22,10 +22,10 @@
         public const double AreaMinLength = 5;
         public const double AreaMaxLength = 2000;
 
-        //Gallery
+        //Image
         public const int ImageMaxValue = 1048576;
         public const int DescriptionMinLength = 40;
-        public const int DescriptionMaxLength = 800;
+        public const int DescriptionMaxLength = 200;
 
         //Article
         public const int TitleMinLength = 5;

@@ -45,9 +45,18 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Images));
         }
 
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(ImageEditModel image)
         {
-            return View();
+            try
+            {
+                await service.DeleteImage(image);
+            }
+            catch (ArgumentException ae)
+            {
+                return RedirectToAction("Message", "Home", new Message { Text = $"{ae.Message} Try again!" });
+            }
+
+            return RedirectToAction(nameof(Images));
         }
     }
 }

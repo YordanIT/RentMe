@@ -16,7 +16,7 @@
         public const double AreaMinLength = 5;
         public const double AreaMaxLength = 2000;
 
-        //Advertisement
+        //Image
         public const int ImageMaxValue = 1048576;
         public const int DescriptionMaxLength = 200;
 

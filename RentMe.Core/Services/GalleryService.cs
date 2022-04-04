@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
 using RentMe.Infrastructure.Data.Models;
@@ -18,11 +19,12 @@ namespace RentMe.Core.Services
         public IEnumerable<ImageViewModel> GetImages()
         {
             var images = repo.All<Image>()
+                .Where(i => i.IsDeleted == false)
                 .OrderByDescending(i => i.Id)
                 .Select(i => new ImageViewModel
                 {
                     Description = i.Description,
-                    Title = i.Title,
+                    Id = i.Id,
                     DataUrl =
                     string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(i.Data))
                 })
@@ -56,6 +58,22 @@ namespace RentMe.Core.Services
                 await repo.AddAsync(image);
                 await repo.SaveChangesAsync();
             }
+        }
+
+        public async Task DeleteImage(ImageEditModel model)
+        {
+            var image = await repo.All<Image>()
+                .Where(a => a.IsDeleted == false)
+                .FirstOrDefaultAsync(a => a.Id == model.Id);
+
+            if (image == null)
+            {
+                throw new ArgumentException("Image does not exist!");
+            }
+
+            image.IsDeleted = true;
+
+            repo.SaveChanges();
         }
     }
 }

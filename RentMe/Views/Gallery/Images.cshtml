@@ -20,7 +20,7 @@
 <div class="gallery">
     @if (User.IsInRole("Admin")){
             <div>
-                @Html.ActionLink("Delete", "Delete", "Gallery", item, null)
+                @Html.ActionLink("Delete", "Delete", "Gallery", new {Id  = item.Id}, null)
             </div>
         }
   <a target="_blank" >
@@ -29,3 +29,5 @@
   <div class="desc">@item.Description</div>
 </div>
 }
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
