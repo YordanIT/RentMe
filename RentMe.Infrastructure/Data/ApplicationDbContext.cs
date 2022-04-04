@@ -16,7 +16,6 @@ namespace RentMe.Infrastructure.Data
         {
         }
         public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<Ad> Ads { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Image> Images { get; set; }

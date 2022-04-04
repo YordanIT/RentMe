@@ -8,7 +8,12 @@ namespace RentMe.Infrastructure.Data.Models
         [Key]
         public int Id { get; init; }
 
-        [MaxLength(Const.ImageMaxValue)]
+        [MaxLength(Const.TitleMaxLength)]
+        public string? Title { get; set; }
+
+        [MaxLength(Const.DescriptionMaxLength)]
+        public string? Description { get; set; }
+
         public byte[]? Data { get; set; }
 
         public bool IsDeleted { get; set; } = false;

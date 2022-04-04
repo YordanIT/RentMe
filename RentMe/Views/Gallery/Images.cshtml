@@ -1,0 +1,31 @@
+﻿@model IEnumerable<RentMe.Core.Models.ImageViewModel>
+
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<h1>@ViewBag.ImageTitle</h1>
+<img src="@ViewBag.ImageDataUrl" />
+
+@if (User.IsInRole("Admin")){
+    <div>
+        <button class="button">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="AddImage">Add New Image</a>
+        </button>
+    </div>
+}
+<br/>
+
+@foreach (var item in Model){
+<div class="gallery">
+    @if (User.IsInRole("Admin")){
+            <div>
+                @Html.ActionLink("Delete", "Delete", "Gallery", item, null)
+            </div>
+        }
+  <a target="_blank" >
+    <img src="@item.DataUrl" alt="image" width="600" height="400">
+  </a>
+  <div class="desc">@item.Description</div>
+</div>
+}

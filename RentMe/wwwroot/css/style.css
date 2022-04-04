@@ -11,14 +11,24 @@
     padding: 10px;
 }
 
-.box {
-    width: 500px;
-    border: 3px dotted;
-    border-color: darkblue;
-    border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-    background-color: white;
+/*Gallery css*/
+.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 600px;
 }
+
+    .gallery img {
+        width: 100%;
+        height: auto;
+    }
+
+.desc {
+    padding: 15px;
+    text-align: center;
+}
+
 
 /*to do : resizing input field not working*/
 .form-control {
@@ -34,6 +44,7 @@
     resize: vertical;
     position: center;
 }
+
 @media only screen and (max-width : 360px) {
     .intro-image {
         display: none;
