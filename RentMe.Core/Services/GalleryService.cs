@@ -27,8 +27,12 @@ namespace RentMe.Core.Services
                     Id = i.Id,
                     DataUrl =
                     string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(i.Data))
-                })
-                .ToList();
+                }).ToList();
+
+            foreach (var image in images)
+            {
+                image.Dispose();
+            }
 
             return images;
         }
