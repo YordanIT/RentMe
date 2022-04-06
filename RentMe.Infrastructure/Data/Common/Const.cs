@@ -17,7 +17,6 @@
         public const double AreaMaxLength = 2000;
 
         //Image
-        public const int ImageMaxValue = 1048576;
         public const int DescriptionMaxLength = 200;
 
         //Article

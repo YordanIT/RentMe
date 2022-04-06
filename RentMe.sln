@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentMe.Core", "RentMe.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentMe.Infrastructure", "RentMe.Infrastructure\RentMe.Infrastructure.csproj", "{DAFBA599-B56C-47E6-80FF-7219AC349917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentMe.Api", "RentMe.Api\RentMe.Api.csproj", "{A3FD55B4-316D-41F6-9884-7B94F9FE5605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentMe.Api", "RentMe.Api\RentMe.Api.csproj", "{A3FD55B4-316D-41F6-9884-7B94F9FE5605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentMe.Test", "RentMe.Test\RentMe.Test.csproj", "{8A8DE89A-2E23-48F5-8A1E-8663AC5F5A9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A3FD55B4-316D-41F6-9884-7B94F9FE5605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3FD55B4-316D-41F6-9884-7B94F9FE5605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3FD55B4-316D-41F6-9884-7B94F9FE5605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8DE89A-2E23-48F5-8A1E-8663AC5F5A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8DE89A-2E23-48F5-8A1E-8663AC5F5A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8DE89A-2E23-48F5-8A1E-8663AC5F5A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8DE89A-2E23-48F5-8A1E-8663AC5F5A9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

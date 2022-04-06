@@ -4,9 +4,9 @@
 	{
         public Guid Id { get; set; }
 
-        public string City { get; set; }
+        public string? City { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         public int Floor { get; set; }
 
@@ -18,6 +18,6 @@
 
         public bool HasFurniture { get; set; }
 
-        public string Type { get; set; }
+        public string? Type { get; set; }
     }
 }
