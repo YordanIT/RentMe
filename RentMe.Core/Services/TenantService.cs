@@ -40,7 +40,7 @@ namespace RentMe.Core.Services
 
         public async Task AddTenant(TenantFormModel model)
         {
-            var proprerty = await repo.All<Property>().FirstAsync(p => p.Address == model.Address);
+            var property = await repo.All<Property>().FirstAsync(p => p.Address == model.Address);
             var tenant = await repo.All<Tenant>().FirstOrDefaultAsync(t => t.Email == model.Email);
 
             if (tenant != null)
@@ -54,7 +54,7 @@ namespace RentMe.Core.Services
                 LastName = model.LastName,
                 Email = model.Email,
                 Phone = model.Phone,
-                Property = proprerty
+                Property = property
             }; 
 
             await repo.AddAsync(tenant);

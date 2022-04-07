@@ -6,6 +6,7 @@ using RentMe.Core.Services;
 using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RentMe.Test
@@ -60,6 +61,60 @@ namespace RentMe.Test
             Assert.DoesNotThrowAsync(async () => await service.AddArticle(article));
         }
 
+        [Test]
+        public async Task DeleteNotExistingArticleShouldThrow()
+        {
+            var article = new ArticleViewModel
+            {
+                Title = "TestTest",
+                Content = "Test",
+            };
+
+            var service = serviceProvider.GetService<IBlogService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteArticle(article)
+            , "Article does not exist!");
+        }
+
+        [Test]
+        public async Task DeleteExistingArticleShouldNotThrow()
+        {
+            var article = new ArticleViewModel
+            {
+                Id = 1,
+                Title = "Test",
+                Content = "Test",
+            };
+
+            var service = serviceProvider.GetService<IBlogService>();
+
+            Assert.DoesNotThrowAsync(async () => await service.DeleteArticle(article));
+        }
+
+        [Test]
+        public void GetArticlesShouldWork()
+        {
+            var service = serviceProvider.GetService<IBlogService>();
+            var articles = (List<ArticleViewModel>)service.GetArticles();
+
+            Assert.AreEqual(1, articles.Count);
+        }
+
+        [Test]
+        public void GetArticlesShouldReturnNull()
+        {
+            var service = serviceProvider.GetService<IBlogService>();
+            service.DeleteArticle(new ArticleViewModel 
+            {
+                Id = 1,
+                Title = "Test",
+                Content = "Test"
+            });
+            var articles = (List<ArticleViewModel>)service.GetArticles();
+
+            Assert.AreEqual(0, articles.Count);
+        }
+
         [TearDown]
         public void TearDown()
         {
@@ -70,6 +125,7 @@ namespace RentMe.Test
         {
             var article = new Article
             {
+                Id = 1,
                 Title = "Test",
                 Content = "Test"
             };

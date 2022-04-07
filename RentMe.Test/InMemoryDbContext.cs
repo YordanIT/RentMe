@@ -10,9 +10,9 @@ namespace RentMe.Test
         private readonly DbContextOptions<ApplicationDbContext> dbContextOptions;
 
         public InMemoryDbContext()
-        { 
-        
-            //Disconnect DB from SQL local server before testing 
+        {
+            //Disconnect ApplicationDbContext from SQL local server before testing :
+            //comment method - protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 
