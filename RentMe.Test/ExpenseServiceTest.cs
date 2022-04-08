@@ -80,7 +80,6 @@ namespace RentMe.Test
                 },
                 Tenant = new Tenant
                 {
-                    Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb"),
                     FirstName = "Test",
                     LastName = "Test",
                     Email = "Test@mail.com",

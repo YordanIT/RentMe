@@ -33,7 +33,7 @@ namespace RentMe.Test
         }
 
         [Test]
-        public async Task ArticleWithSameTitleShouldThrow()
+        public async Task AddArticleWithSameTitleShouldThrow()
         {
             var article = new ArticleFormModel
             {
@@ -48,7 +48,7 @@ namespace RentMe.Test
         }
 
         [Test]
-        public async Task ArticleWithDifferentTitleShouldNotThrow()
+        public async Task AddArticleWithDifferentTitleShouldNotThrow()
         {
             var article = new ArticleFormModel
             {
