@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -31,21 +32,30 @@ namespace RentMe.Test
             await SeedDbAsync(repo);
         }
 
-        //[Test]
-        //public async Task SetNamesShouldWork()
-        //{
-        //    var user = new UserFormModel
-        //    {
-        //        FirstName = "Test",
-        //        LastName = "Test"
-        //    };
+        [Test]
+        public async Task SetNamesShouldWork()
+        {
+            var user = new UserFormModel
+            {
+                FirstName = "Test",
+                LastName = "Test"
+            };
 
-        //    var service = serviceProvider.GetService<IUserService>();
-        //    await service.SetNames("Test", user);
+            var service = serviceProvider.GetService<IUserService>();
+            await service.SetNames("Test", user);
 
-        //    Assert.AreEqual("Test", user.FirstName);
-        //    Assert.AreEqual("Test", user.LastName);
-        //}
+            Assert.AreEqual("Test", user.FirstName);
+            Assert.AreEqual("Test", user.LastName);
+        }
+
+        [Test]
+        public void GetUsersShouldWork()
+        {
+            var service = serviceProvider.GetService<IUserService>();
+            var users = service.GetUsers();
+
+            Assert.AreEqual(1, users);
+        }
 
         [TearDown]
         public void TearDown()
@@ -57,11 +67,9 @@ namespace RentMe.Test
         {
             var user = new ApplicationUser
             {
-                Id = "Test",
-                Email = "Test@mail.com",
+                Email = "test@mail.com",
+                PasswordHash = "w85$62Md",
                 EmailConfirmed = true,
-                ConcurrencyStamp = "test",
-                PasswordHash = "test",
             };
 
             await repo.AddAsync(user);

@@ -45,7 +45,7 @@ namespace RentMe.Core.Services
         {
             var expense = await repo.All<Expense>()
                .Where(e => e.IsDeleted == false)
-               .FirstOrDefaultAsync(e => e.Id.ToString() == model.Id);
+               .FirstOrDefaultAsync(e => e.Id == model.Id);
 
             if (expense == null)
             {
@@ -61,7 +61,7 @@ namespace RentMe.Core.Services
         {
             var expense = await repo.All<Expense>()
                .Where(e => e.IsDeleted == false)
-               .FirstOrDefaultAsync(e => e.Id.ToString() == model.Id);
+               .FirstOrDefaultAsync(e => e.Id == model.Id);
 
             if (expense == null)
             {
@@ -76,7 +76,7 @@ namespace RentMe.Core.Services
         public IEnumerable<ExpenseListViewModel> GetExpenses(TenantViewModel model)
         {
             var tenant = repo.All<Tenant>()
-                .First(t => t.Id.ToString() == model.Id);
+                .First(t => t.Id == model.Id);
 
             var expenses = repo.All<Expense>()
                 .Where(e => e.TenantId == tenant.Id)
@@ -84,7 +84,7 @@ namespace RentMe.Core.Services
                 .ToList()
                 .Select(e => new ExpenseListViewModel
                 {
-                    Id = e.Id.ToString(),
+                    Id = e.Id,
                     IsPaid = e.IsPaid,
                     Rent = e.Rent,
                     Electricity = e.Electricity,
@@ -116,7 +116,7 @@ namespace RentMe.Core.Services
         {
             var tenants = repo.All<Tenant>()
                .Where(t => t.IsDeleted == false)
-               .Where(t => t.Id.ToString() == model.Id)
+               .Where(t => t.Id == model.Id)
                .Select(t => new SelectListItem
                {
                    Text = t.Email,

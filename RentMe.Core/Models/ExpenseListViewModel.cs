@@ -2,7 +2,7 @@
 {
     public class ExpenseListViewModel
     {
-        public string? Id { get; init; }
+        public Guid? Id { get; init; }
         public decimal Rent { get; set; }
         public decimal EntranceFee { get; set; }
         public decimal Heating { get; set; }

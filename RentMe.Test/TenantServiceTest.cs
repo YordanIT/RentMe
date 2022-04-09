@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
@@ -19,6 +18,9 @@ namespace RentMe.Test
         {
             private ServiceProvider serviceProvider;
             private InMemoryDbContext dbContext;
+            private Property property;
+            private Tenant tenant;
+
 
             [SetUp]
             public async Task Setup()
@@ -34,17 +36,23 @@ namespace RentMe.Test
 
                 var repo = serviceProvider.GetService<IApplicationDbRepository>();
                 await SeedDbAsync(repo);
+
+                property = repo.All<Tenant>().Single().Property;
+                tenant = repo.All<Tenant>().Single();
             }
             
             [Test]
             public void GetTenantShouldWork()
             {
+                var propertyViewModel = new PropertyListViewModel 
+                { 
+                    Id = property.Id,
+                    Area = 100,
+                    Floor = 1,
+                };
                 var service = serviceProvider.GetService<ITenantService>();
 
-                Assert.IsNotNull(service.GetTenant(new PropertyListViewModel
-                {
-                    Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb")
-                }));
+                Assert.IsNotNull(service.GetTenant(propertyViewModel));
             }
 
             [Test]
@@ -86,20 +94,33 @@ namespace RentMe.Test
                 Assert.CatchAsync<ArgumentException>(async () =>
                 await service.RemoveTenant(new TenantViewModel
                 {
-                    Id = "test"
+                    Id = new Guid()
                 })
                 , "Tenant does not exist!");
             }
 
             [Test]
-            public async Task GetPropertiesShouldWork()
+            public async Task RemoveExistingTenantShouldNotThrow()
             {
                 var service = serviceProvider.GetService<ITenantService>();
 
-                Assert.NotNull(service.GetProperties(new PropertyListViewModel
+                Assert.DoesNotThrowAsync(async () => await service.RemoveTenant(new TenantViewModel{ Id = tenant.Id }));
+                Assert.IsTrue(tenant.IsDeleted);
+            }
+
+            [Test]
+            public async Task GetPropertiesShouldWork()
+            {
+                var propertyViewModel = new PropertyListViewModel
                 {
-                    Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb"),
-                }));
+                    Id = property.Id,
+                    Area = 100,
+                    Floor = 1,
+                };
+
+                var service = serviceProvider.GetService<ITenantService>();
+
+                Assert.NotNull(service.GetProperties(propertyViewModel));
             }
 
             public void TearDown()
@@ -116,7 +137,6 @@ namespace RentMe.Test
                     Email = "mail@mail.com",
                     Property = new Property
                     {
-                        Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb"),
                         PropertyType = new PropertyType { Type = "Test" },
                         Address = "Test",
                         Area = 100,
@@ -127,7 +147,6 @@ namespace RentMe.Test
                         HasFurniture = true,
                         ApplicationUser = new ApplicationUser
                         {
-                            Id = "9da87b07-668c-4e74-b491-255e7bf020fb",
                             Email = "test@mail.com",
                             PasswordHash = "w85$62Md",
                             EmailConfirmed = true,

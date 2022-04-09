@@ -28,7 +28,7 @@ namespace RentMe.Core.Services
                 .Where(t => t.IsDeleted == false)
                 .Select(t => new TenantViewModel
                 {
-                    Id = t.Id.ToString(),
+                    Id = t.Id,
                     FirstName = t.FirstName,
                     LastName = t.LastName,
                     Email = t.Email,
@@ -65,7 +65,7 @@ namespace RentMe.Core.Services
         {
             var tenant = await repo.All<Tenant>()
                .Where(t => t.IsDeleted == false)
-               .FirstOrDefaultAsync(t => t.Id.ToString() == model.Id);
+               .FirstOrDefaultAsync(t => t.Id == model.Id);
 
             if (tenant == null)
             {

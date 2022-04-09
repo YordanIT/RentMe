@@ -8,6 +8,7 @@ using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RentMe.Test
@@ -17,6 +18,7 @@ namespace RentMe.Test
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
         private ApplicationUser user;
+        private Property property;
 
         [SetUp]
         public async Task Setup()
@@ -33,39 +35,31 @@ namespace RentMe.Test
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
             await SeedDbAsync(repo);
 
-
-            user = new ApplicationUser
-            {
-                Id = "9da87b07-668c-4e74-b491-255e7bf020fb",
-                Email = "test@mail.com",
-                PasswordHash = "w85$62Md",
-                EmailConfirmed = true,
-            };
+            user = repo.All<ApplicationUser>().Single();
+            property = repo.All<Property>().Single();
         }
 
         [Test]
-        public async Task AddExistingPropertyTypeShowTrow()
+        public async Task AddExistingPropertyTypeShouldTrow()
         {
             var type = new PropertyTypeFormModel { Type = "Test" };
-
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
 
             Assert.CatchAsync<ArgumentException>(async () =>
             await service.AddPropertyType(type), "PropertyType already exists!");
         }
 
         [Test]
-        public async Task AddNotExistingPropertyTypeShowNotTrow()
+        public async Task AddNotExistingPropertyTypeShouldNotTrow()
         {
             var type = new PropertyTypeFormModel { Type = "TestTest" };
+            var service = serviceProvider.GetService<IPropertyService>();
 
-            var service = serviceProvider.GetService<PropertyService>();
-
-            Assert.DoesNotThrow(async () => await service.AddPropertyType(type));
+            Assert.DoesNotThrowAsync(async () => await service.AddPropertyType(type));
         }
 
         [Test]
-        public async Task AddExistingPropertyShowTrow()
+        public async Task AddExistingPropertyShouldTrow()
         {
             var property = new PropertyFormModel
             {
@@ -79,14 +73,14 @@ namespace RentMe.Test
                 HasParking = true
             };
 
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
 
             Assert.CatchAsync<ArgumentException>(async () =>
             await service.AddProperty(property, user), "Property with this address already exists!");
         }
 
         [Test]
-        public async Task AddNotExistingPropertyShowNotTrow()
+        public async Task AddNotExistingPropertyShouldNotTrow()
         {
             var property = new PropertyFormModel
             {
@@ -100,7 +94,7 @@ namespace RentMe.Test
                 HasParking = true
             };
 
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
 
             Assert.DoesNotThrowAsync(async () => await service.AddProperty(property, user));
         }
@@ -108,50 +102,39 @@ namespace RentMe.Test
         [Test]
         public async Task DeleteExistingPropertyShowNotTrow()
         {
-            var property = new PropertyListViewModel
+            var propertyViewModel = new PropertyListViewModel
             {
-                Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb"),
-                Address = "Test",
+                Id = property.Id,
                 Area = 100,
-                City = "Test",
                 Floor = 1,
-                Type = "Test",
-                HasElevator = true,
-                HasFurniture = true,
-                HasParking = true
             };
 
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
 
-            Assert.DoesNotThrowAsync(async () => await service.DeleteProperty(property));
+            Assert.DoesNotThrowAsync(async () => await service.DeleteProperty(propertyViewModel));
+            Assert.IsTrue(property.IsDeleted);
         }
 
         [Test]
-        public async Task DeleteNotExistingPropertyShowTrow()
+        public async Task DeleteNotExistingPropertyShouldTrow()
         {
-            var property = new PropertyListViewModel
+            var propertyViewModel = new PropertyListViewModel
             {
-                Id = new Guid("0da87b07-668c-4e74-b491-255e7bf020fb"),
-                Address = "TestTest",
+                Id = new Guid(),
                 Area = 100,
-                City = "Test",
                 Floor = 1,
-                Type = "Test",
-                HasElevator = true,
-                HasFurniture = true,
-                HasParking = true
             };
 
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
 
             Assert.CatchAsync<ArgumentException>(async () =>
-            await service.DeleteProperty(property), "Property does not exist!");
+            await service.DeleteProperty(propertyViewModel), "Property does not exist!");
         }
 
         [Test]
         public void GetPropertiesShouldWork()
         {
-            var service = serviceProvider.GetService<PropertyService>();
+            var service = serviceProvider.GetService<IPropertyService>();
             var properties = (List<PropertyListViewModel>)service.GetProperties(user);
 
             Assert.AreEqual(1, properties.Count);
@@ -167,7 +150,6 @@ namespace RentMe.Test
         {
             var property = new Property
             {
-                Id = new Guid("9da87b07-668c-4e74-b491-255e7bf020fb"),
                 PropertyType = new PropertyType { Type = "Test" },
                 Address = "Test",
                 Area = 100,
@@ -178,7 +160,6 @@ namespace RentMe.Test
                 HasFurniture = true,
                 ApplicationUser = new ApplicationUser
                 {
-                    Id = "9da87b07-668c-4e74-b491-255e7bf020fb",
                     Email = "test@mail.com",
                     PasswordHash = "w85$62Md",
                     EmailConfirmed = true,

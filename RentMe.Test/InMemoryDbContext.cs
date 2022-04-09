@@ -4,6 +4,9 @@ using RentMe.Infrastructure.Data;
 
 namespace RentMe.Test
 {
+    //IMPORTANT:
+    //Disconnect ApplicationDbContext from SQL local server before testing :
+    //Comment method - protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     public class InMemoryDbContext
     {
         private readonly SqliteConnection connection;
@@ -11,8 +14,6 @@ namespace RentMe.Test
 
         public InMemoryDbContext()
         {
-            //Disconnect ApplicationDbContext from SQL local server before testing :
-            //comment method - protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 

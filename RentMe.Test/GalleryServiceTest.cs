@@ -9,6 +9,7 @@ using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RentMe.Test
@@ -17,6 +18,7 @@ namespace RentMe.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private Image image;
 
         [SetUp]
         public async Task Setup()
@@ -32,6 +34,8 @@ namespace RentMe.Test
 
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
             await SeedDbAsync(repo);
+
+            image = repo.All<Image>().Single();
         }
 
         [Test]
@@ -48,7 +52,7 @@ namespace RentMe.Test
         {
             var service = serviceProvider.GetService<IGalleryService>();
             var images = new Mock<IFormFileCollection>();
-            images.Setup(d => d.GetFile("image.jpg"));
+            images.Setup(i => i.GetFile("image.jpg"));
             var model = new ImageFormModel { Description = "test" };
 
             Assert.DoesNotThrowAsync(async () => await service.AddImage((IFormFileCollection)images, model));
@@ -69,12 +73,12 @@ namespace RentMe.Test
         public async Task DeleteNotExistingImageShouldThrow()
         {
             var service = serviceProvider.GetService<IGalleryService>();
-            var image = new ImageEditModel
+            var imageViewModel = new ImageEditModel
             {
                 Id = 2
             };
 
-            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteImage(image)
+            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteImage(imageViewModel)
             , "Image does not exist!");
         }
 
@@ -82,12 +86,12 @@ namespace RentMe.Test
         public async Task DeleteExistingImageShouldNotThrow()
         {
             var service = serviceProvider.GetService<IGalleryService>();
-            var image = new ImageEditModel
+            var imageViewModel = new ImageEditModel
             {
-                Id = 1
+                Id = image.Id
             };
 
-            Assert.DoesNotThrowAsync(async () => await service.DeleteImage(image));
+            Assert.DoesNotThrowAsync(async () => await service.DeleteImage(imageViewModel));
         }
 
         [TearDown]

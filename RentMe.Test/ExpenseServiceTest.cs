@@ -8,6 +8,7 @@ using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RentMe.Test
@@ -16,6 +17,7 @@ namespace RentMe.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private Tenant tenant;
 
         [SetUp]
         public async Task Setup()
@@ -31,17 +33,85 @@ namespace RentMe.Test
 
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
             await SeedDbAsync(repo);
+
+            tenant = repo.All<Tenant>().Single();
+        }
+        
+        [Test]
+        public void GetExpensesShouldWork()
+        {
+            var tenantViewModel = new TenantViewModel { Id = tenant.Id };
+            var service = serviceProvider.GetService<IExpenseService>();
+
+            var expenses = (List<ExpenseListViewModel>)service.GetExpenses(tenantViewModel);
+
+            Assert.AreEqual(1, expenses.Count);
         }
 
-        //[Test]
-        //public void GetExpensesShouldWork()
-        //{
-        //    var service = serviceProvider.GetService<IExpenseService>();
-        //    var tenant = new TenantViewModel { Id = "9da87b07-668c-4e74-b491-255e7bf020fb" };
-        //    var expenses = (List<ExpenseListViewModel>)service.GetExpenses(tenant);
+        [Test]
+        public  void AddExpenseShouldWork()
+        {
+            var expense = new ExpenseFormModel
+            {
+                Rent = 101,
+                Electricity = 1,
+                EntranceFee = 1,
+                Heating = 1,
+                Water = 1,
+                Other = 1,
+                Comment = "Test",
+                TenantEmail = "Test@mail.com"
+            };
 
-        //    Assert.AreEqual(1, expenses.Count);
-        //}
+            var service = serviceProvider.GetService<IExpenseService>();
+            var expenses = service.AddExpense(expense);
+
+            Assert.AreEqual(expense.Rent, tenant.Expenses.Single(t => t.Rent == 101).Rent);
+        }
+
+        [Test]
+        public async Task DeleteExistingExpenseShouldNotThrow()
+        {
+            var id = tenant.Expenses.Single().Id;
+            var expense = new ExpenseListViewModel { Id = id };
+            var service = serviceProvider.GetService<IExpenseService>();
+
+            Assert.DoesNotThrowAsync(async () => await service.DeleteExpense(expense));
+            Assert.IsTrue(tenant.Expenses.Single().IsDeleted);
+        }
+
+        [Test]
+        public async Task DeleteNotExistingExpenseShouldThrow()
+        {
+            var expense = new ExpenseListViewModel { Id = new Guid() };
+            var service = serviceProvider.GetService<IExpenseService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteExpense(expense)
+            , "Expense does not exist!");
+            Assert.IsFalse(tenant.Expenses.Single().IsDeleted);
+        }
+
+        [Test]
+        public async Task EditExistingExpenseShouldNotThrow()
+        {
+            var id = tenant.Expenses.Single().Id;
+            var expense = new ExpenseListViewModel { Id = id };
+            var service = serviceProvider.GetService<IExpenseService>();
+
+            Assert.DoesNotThrowAsync(async () => await service.EditExpense(expense));
+            Assert.IsTrue(tenant.Expenses.Single().IsPaid);
+        }
+
+        [Test]
+        public async Task EditNotExistingExpenseShouldThrow()
+        {
+            var expense = new ExpenseListViewModel { Id = new Guid() };
+            var service = serviceProvider.GetService<IExpenseService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.EditExpense(expense)
+            , "Expense does not exist!");
+            Assert.IsFalse(tenant.Expenses.Single().IsPaid);
+        }
 
         [TearDown]
         public void TearDown()
@@ -51,6 +121,33 @@ namespace RentMe.Test
 
         private async Task SeedDbAsync(IApplicationDbRepository repo)
         {
+            var property = new Property
+            {
+                PropertyType = new PropertyType { Type = "Test" },
+                Address = "Test",
+                Area = 100,
+                City = "Test",
+                Floor = 1,
+                HasParking = true,
+                HasElevator = true,
+                HasFurniture = true,
+                ApplicationUser = new ApplicationUser
+                {
+                    Email = "test@mail.com",
+                    PasswordHash = "w85$62Md",
+                    EmailConfirmed = true,
+                }
+            };
+
+            var tenant = new Tenant
+            {
+                FirstName = "Test",
+                LastName = "Test",
+                Email = "Test@mail.com",
+                Phone = "88881000",
+                Property = property
+            };
+
             var expense = new Expense
             {
                 Rent = 1,
@@ -60,33 +157,12 @@ namespace RentMe.Test
                 Water = 1,
                 Other = 1,
                 Comment = "Test",
-                Property = new Property
-                {
-                    PropertyType = new PropertyType { Type = "Test" },
-                    Address = "Test",
-                    Area = 100,
-                    City = "Test",
-                    Floor = 1,
-                    HasParking = true,
-                    HasElevator = true,
-                    HasFurniture = true,
-                    ApplicationUser = new ApplicationUser
-                    {
-                        Id = "9da87b07-668c-4e74-b491-255e7bf020fb",
-                        Email = "test@mail.com",
-                        PasswordHash = "w85$62Md",
-                        EmailConfirmed = true,
-                    }
-                },
-                Tenant = new Tenant
-                {
-                    FirstName = "Test",
-                    LastName = "Test",
-                    Email = "Test@mail.com",
-                    Phone = "88881000",
-                }
+                Property = property,
+                Tenant = tenant
             };
 
+            await repo.AddAsync(property);
+            await repo.AddAsync(tenant);
             await repo.AddAsync(expense);
             await repo.SaveChangesAsync();
         }

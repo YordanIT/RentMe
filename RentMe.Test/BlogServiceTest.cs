@@ -7,6 +7,7 @@ using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RentMe.Test
@@ -15,6 +16,7 @@ namespace RentMe.Test
     {
         private ServiceProvider serviceProvider;
         private InMemoryDbContext dbContext;
+        private Article article;
         
         [SetUp]
         public async Task Setup()
@@ -30,27 +32,29 @@ namespace RentMe.Test
 
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
             await SeedDbAsync(repo);
+
+            article = repo.All<Article>().Single();
         }
 
         [Test]
         public async Task AddArticleWithSameTitleShouldThrow()
         {
-            var article = new ArticleFormModel
+            var articleFormModel = new ArticleFormModel
             {
-                Title = "Test",
+                Title = article.Title,
                 Content = "Test",
             };
 
             var service = serviceProvider.GetService<IBlogService>();
 
-            Assert.CatchAsync<ArgumentException>(async () => await service.AddArticle(article)
+            Assert.CatchAsync<ArgumentException>(async () => await service.AddArticle(articleFormModel)
             , "Article with this title already exists or text is too long!");
         }
 
         [Test]
         public async Task AddArticleWithDifferentTitleShouldNotThrow()
         {
-            var article = new ArticleFormModel
+            var articleFormModel = new ArticleFormModel
             {
                 Title = "TestTest",
                 Content = "Test",
@@ -58,13 +62,13 @@ namespace RentMe.Test
 
             var service = serviceProvider.GetService<IBlogService>();
 
-            Assert.DoesNotThrowAsync(async () => await service.AddArticle(article));
+            Assert.DoesNotThrowAsync(async () => await service.AddArticle(articleFormModel));
         }
 
         [Test]
         public async Task DeleteNotExistingArticleShouldThrow()
         {
-            var article = new ArticleViewModel
+            var articleViewModel = new ArticleViewModel
             {
                 Title = "TestTest",
                 Content = "Test",
@@ -72,23 +76,24 @@ namespace RentMe.Test
 
             var service = serviceProvider.GetService<IBlogService>();
 
-            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteArticle(article)
+            Assert.CatchAsync<ArgumentException>(async () => await service.DeleteArticle(articleViewModel)
             , "Article does not exist!");
         }
 
         [Test]
         public async Task DeleteExistingArticleShouldNotThrow()
         {
-            var article = new ArticleViewModel
+            var articleViewModel = new ArticleViewModel
             {
-                Id = 1,
+                Id = article.Id,
                 Title = "Test",
                 Content = "Test",
             };
 
             var service = serviceProvider.GetService<IBlogService>();
 
-            Assert.DoesNotThrowAsync(async () => await service.DeleteArticle(article));
+            Assert.DoesNotThrowAsync(async () => await service.DeleteArticle(articleViewModel));
+            Assert.IsTrue(article.IsDeleted);
         }
 
         [Test]
@@ -106,7 +111,7 @@ namespace RentMe.Test
             var service = serviceProvider.GetService<IBlogService>();
             service.DeleteArticle(new ArticleViewModel 
             {
-                Id = 1,
+                Id = article.Id,
                 Title = "Test",
                 Content = "Test"
             });
