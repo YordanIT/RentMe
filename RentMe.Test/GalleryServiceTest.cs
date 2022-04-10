@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using Moq;
 using NUnit.Framework;
 using RentMe.Core.Contracts;
@@ -9,6 +10,7 @@ using RentMe.Infrastructure.Data.Models;
 using RentMe.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,12 +52,12 @@ namespace RentMe.Test
         [Test]
         public async Task AddImageShouldWork()
         {
-            var service = serviceProvider.GetService<IGalleryService>();
-            var images = new Mock<IFormFileCollection>();
-            images.Setup(i => i.GetFile("image.jpg"));
+            var mock = GetFormFileCollection();
             var model = new ImageFormModel { Description = "test" };
 
-            Assert.DoesNotThrowAsync(async () => await service.AddImage((IFormFileCollection)images, model));
+            var service = serviceProvider.GetService<IGalleryService>();
+            
+            Assert.DoesNotThrowAsync(async () => await service.AddImage(mock, model));
         }
 
         [Test]
@@ -111,6 +113,36 @@ namespace RentMe.Test
 
             await repo.AddAsync(image);
             await repo.SaveChangesAsync();
+        }
+
+        private static IFormFileCollection GetFormFileCollection()
+        {
+            var filesFolder = $"{AppDomain.CurrentDomain.SetupInformation.ApplicationBase}UploadFiles\\";
+            List<string> filesPathsListToUpload = new List<string>();
+            filesPathsListToUpload.Add($"{filesFolder}UploadFile1.png");
+            filesPathsListToUpload.Add($"{filesFolder}UploadFile2.jpg");
+            filesPathsListToUpload.Add($"{filesFolder}UploadFile3.bmp");
+            FormFileCollection filesCollection = new FormFileCollection();
+
+            foreach (var filePath in filesPathsListToUpload)
+            {
+                var stream = File.OpenRead(filePath);
+                IFormFile file = new FormFile(stream, 0, stream.Length, "files", Path.GetFileName(filePath))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = filePath.Split('.')[1] == "jpg" ? "image/jpeg"
+                        : filePath.Split('.')[1] == "png" ? "image/png"
+                        : "image/bmp",
+                };
+
+                filesCollection.Add(file);
+            }
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers.Add("Content-Type", "multipart/form-data");
+            httpContext.Request.Form = new FormCollection(new Dictionary<string, StringValues>(), filesCollection);
+
+            return httpContext.Request.Form.Files;
         }
     }
 }
