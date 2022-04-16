@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using RentMe.Core.Common;
 using RentMe.Core.Contracts;
 using RentMe.Core.Models;
 using RentMe.Infrastructure.Data.Models;
@@ -46,6 +47,12 @@ namespace RentMe.Core.Services
 
             foreach (var file in images)
             {
+                if (file.FileName.Length < Const.TitleMinLength
+                    || file.FileName.Length > Const.TitleMaxLength)
+                {
+                    throw new ArgumentException($"Image title must be between {Const.TitleMinLength} and {Const.TitleMaxLength} symbols!");
+                }
+
                 var image = new Image
                 {
                     Title = file.FileName,
