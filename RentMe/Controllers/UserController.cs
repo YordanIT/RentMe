@@ -46,6 +46,7 @@ namespace RentMe.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetAsAdmin(UserListViewModel user)
         {
             await service.SetAsAdmin(user.Id);
@@ -54,6 +55,7 @@ namespace RentMe.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetAsLandlord(UserListViewModel user)
         {
             await service.SetAsLandlord(user.Id);

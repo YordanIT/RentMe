@@ -44,6 +44,7 @@ namespace RentMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateExpense(ExpenseFormModel expense)
         {
             try
@@ -58,6 +59,7 @@ namespace RentMe.Controllers
             return RedirectToAction("Message", "Home", new Message { Text = "Successfully added expenses! Enjoy your stay at RentMe" });
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteExpense(ExpenseListViewModel expense)
         {
             try
@@ -72,6 +74,7 @@ namespace RentMe.Controllers
             return RedirectToAction("Message", "Home", new Message { Text = "Successfully deleted expenses! Enjoy your stay at RentMe" });
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditExpense(ExpenseListViewModel expense)
         {
             try

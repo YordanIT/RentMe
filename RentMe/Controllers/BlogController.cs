@@ -16,6 +16,7 @@ namespace RentMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ArticleFormModel article)
         {
             try
@@ -30,6 +31,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Articles));
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ArticleViewModel article)
         {
             try

@@ -29,6 +29,7 @@ namespace RentMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ImageFormModel model)
         {
             var image = Request.Form.Files;
@@ -45,6 +46,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Images));
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ImageEditModel image)
         {
             try

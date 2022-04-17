@@ -34,6 +34,7 @@ namespace RentMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTenant(TenantFormModel tenant)
         {
             try
@@ -48,6 +49,7 @@ namespace RentMe.Controllers
             return Redirect("~/Property/Properties");
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveTenant(TenantViewModel tenant)
         {
             try

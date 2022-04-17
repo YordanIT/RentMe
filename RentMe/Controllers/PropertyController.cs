@@ -45,6 +45,7 @@ namespace RentMe.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProperty(PropertyFormModel property)
         {
             try
@@ -79,6 +80,7 @@ namespace RentMe.Controllers
             return RedirectToAction(nameof(Properties));
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(PropertyListViewModel property)
         {
             try
